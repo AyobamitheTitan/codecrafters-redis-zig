@@ -9,15 +9,18 @@ pub fn main() !void {
     // Uncomment the code below to pass the first stage
     //
     const address = try net.Address.resolveIp("127.0.0.1", 6379);
-    
+
     var listener = try address.listen(.{
         .reuse_address = true,
     });
     defer listener.deinit();
-    
+
+    // Solution for the second stage
+    try stdout.writeAll("\n+PONG\r\n");
+
     while (true) {
         const connection = try listener.accept();
-    
+
         try stdout.writeAll("accepted new connection");
         connection.stream.close();
     }
