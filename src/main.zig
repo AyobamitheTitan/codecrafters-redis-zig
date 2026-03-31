@@ -21,7 +21,7 @@ pub fn main() !void {
 
         try stdout.writeAll("accepted new connection");
         var buffer: [1024]u8 = undefined;
-        while (true) { // Inner loop for multiple commands
+        while (true) { 
             const bytes_read = connection.stream.read(&buffer) catch |err| {
                 if (err == error.EndOfStream) break;
                 return err;
