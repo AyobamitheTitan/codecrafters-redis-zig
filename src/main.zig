@@ -19,7 +19,6 @@ pub fn main() !void {
         const connection = try listener.accept();
 
         try stdout.writeAll("accepted new connection");
-
         // Solution for the second stage
         try connection.stream.writeAll("+PONG\r\n");
         defer connection.stream.close();
