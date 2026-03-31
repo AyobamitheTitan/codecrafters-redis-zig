@@ -15,13 +15,13 @@ pub fn main() !void {
     });
     defer listener.deinit();
 
-    // Solution for the second stage
-    try stdout.writeAll("\n+PONG\r\n");
-
     while (true) {
         const connection = try listener.accept();
 
         try stdout.writeAll("accepted new connection");
+
+        // Solution for the second stage
+        try stdout.writeAll("+PONG\r\n");
         connection.stream.close();
     }
 }
