@@ -21,7 +21,7 @@ pub fn main() !void {
         try stdout.writeAll("accepted new connection");
 
         // Solution for the second stage
-        try connection.stream.writeAll("\n+PONG\r\n");
+        try connection.stream.writeAll("+PONG\r\n");
         defer connection.stream.close();
     }
 }
