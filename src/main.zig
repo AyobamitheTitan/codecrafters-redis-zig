@@ -15,12 +15,12 @@ pub fn main() !void {
     });
     defer listener.deinit();
 
+    var connection: std.net.Server.Connection = undefined;
     while (true) {
-        const connection = try listener.accept();
+        connection = try listener.accept();
 
         try stdout.writeAll("accepted new connection");
-        // Solution for the second stage
         try connection.stream.writeAll("+PONG\r\n");
-        defer connection.stream.close();
     }
+    defer connection.stream.close();
 }
