@@ -15,12 +15,20 @@ pub fn main() !void {
     });
     defer listener.deinit();
 
-    var connection: std.net.Server.Connection = undefined;
     while (true) {
-        connection = try listener.accept();
+        const connection = try listener.accept();
+        defer connection.stream.close();
 
         try stdout.writeAll("accepted new connection");
-        try connection.stream.writeAll("+PONG\r\n");
+        var buffer: [1024]u8 = undefined;
+        while (true) { // Inner loop for multiple commands
+            const bytes_read = connection.stream.read(&buffer) catch |err| {
+                if (err == error.EndOfStream) break;
+                return err;
+            };
+            if (bytes_read == 0) break;
+
+            try connection.stream.writeAll("+PONG\r\n");
+        }
     }
-    defer connection.stream.close();
 }
